@@ -1,0 +1,76 @@
+<div class="list row">
+  <div class="col-md-8">
+    <h3>Hello {{ username }}!!</h3>
+  </div>
+  <div *ngIf="orders && orders.length > 0" class="col-md-8">
+    <h4>Purchased Books List</h4>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let order of orders; let i = index"
+      >
+        {{ order.title }}
+        <button class="btn btn-danger ml-5" (click)="reviewClicked(order.id, order.title)"> Write Review </button>
+        <button class="btn btn-primary align-right" (click)="returnOrder(order.id)"> Return </button>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-8 mt-3" *ngIf="isReviewButtonClicked">
+    <form *ngIf="!reviewError">
+      <div class="form-group">
+        <label for="review">Type Review for {{ selectedBook }}</label>
+        <input
+          class="form-control"
+          id="review"
+          [(ngModel)]="review"
+          name="review"
+        />
+      </div>
+    </form>
+    <p *ngIf="reviewError">{{ message }}</p>
+    <button class="btn btn-success align-right" (click)="submitReview()">Submit Review </button>
+    <button class="btn btn-danger align-right mr-3" (click)="cancelReview()">Cancel Review </button>
+  </div>
+  <div class="col-md-8">
+    <div class="input-group mb-4 mt-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by title"
+        [(ngModel)]="title"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          (click)="searchTitle()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="books && books.length > 0" class="col-md-8">
+    <h4>Books List</h4>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let book of books; let i = index"
+        [class.active]="i == currentIndex"
+        (click)="setActiveBook(book, i)"
+      >
+        {{ book.title }}
+      </li>
+    </ul>
+
+    <button *ngIf="isAdmin" class="m-3 btn btn-sm btn-danger" (click)="removeAllBooks()">
+      Remove All
+    </button>
+  </div>
+  <div class="col-md-8 mt-3">
+    <app-book-details
+      [viewMode]="true"
+      [currentBook]="currentBook"
+      [isAdmin]="isAdmin"
+    ></app-book-details>
+  </div>
+</div>
