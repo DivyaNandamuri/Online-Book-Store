@@ -36,21 +36,41 @@ export class StorageService {
     return false;
   }
 
-  public saveCurrentBook(info: any, quantity: number): void {
-    // window.sessionStorage.removeItem(BOOK_INFO);
-    const data = this.getCurrentBookInfo();
-    if(data.id === info.id) {
-
+  public saveCurrentCart(info: any): void {
+    const data = this.getCurrentCartInfo();
+    const existedItemIndex = data.findIndex((item: any) => item.book.id === info.book.id)
+    if (existedItemIndex !== -1) {
+      data[existedItemIndex].quantity = data[existedItemIndex].quantity + info.quantity;
+    } else {
+        data.push(info);
     }
-    window.sessionStorage.setItem(BOOK_INFO, JSON.stringify(info));
+    window.sessionStorage.setItem(BOOK_INFO, JSON.stringify(data));
   }
 
-  public getCurrentBookInfo(): any {
+  public getCurrentCartInfo(): any {
     const info = window.sessionStorage.getItem(BOOK_INFO);
     if (info) {
       return JSON.parse(info);
     }
 
-    return {};
+    return [];
+  }
+
+  public removeFromCart(info: any): void {
+    let data = this.getCurrentCartInfo();
+    const existedItemIndex = data.findIndex((item: any) => item.book.id === info.book.id)
+    if (existedItemIndex !== -1) {
+      data.splice(existedItemIndex, 1);
+    }
+    if (data.length > 0) {
+      window.sessionStorage.setItem(BOOK_INFO, JSON.stringify(data));
+    } else {
+      this.clearCart();
+    }
+    window.location.reload();
+  }
+
+  public clearCart(): void {
+    window.sessionStorage.removeItem(BOOK_INFO);
   }
 }

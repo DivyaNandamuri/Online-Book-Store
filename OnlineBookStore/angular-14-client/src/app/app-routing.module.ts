@@ -6,7 +6,7 @@ import { AddBookComponent } from './components/add-book/add-book.component';
 import { UserSignUpComponent } from './components/user-signup/user-signup.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { HomeComponent } from './components/home/home.component';
-import { BookPaymentComponent } from './components/payment/book-payment.component';
+import { BookCartComponent } from './components/cart/book-cart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'books', component: BooksListComponent },
   { path: 'books/:id', component: BookDetailsComponent },
   { path: 'add', component: AddBookComponent },
-  { path: 'payment', component: BookPaymentComponent }
+  { path: 'cart', component: BookCartComponent }
 ];
 
 @NgModule({

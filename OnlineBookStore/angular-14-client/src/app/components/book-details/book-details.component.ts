@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BookService } from 'src/app/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/models/book.model';
@@ -9,7 +9,7 @@ import { StorageService } from 'src/app/services/storage.service';
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css']
 })
-export class BookDetailsComponent implements OnInit {
+export class BookDetailsComponent implements OnChanges, OnInit {
 
   @Input() viewMode = false;
 
@@ -27,6 +27,8 @@ export class BookDetailsComponent implements OnInit {
 
   message = '';
   quantity = 1;
+  cartAddedMessage = '';
+  isCartAdded = false;
 
   constructor(
     private bookService: BookService,
@@ -38,6 +40,13 @@ export class BookDetailsComponent implements OnInit {
     if (!this.viewMode) {
       this.message = '';
       this.getBook(this.route.snapshot.params["id"]);
+    }
+  }
+
+  ngOnChanges(change: SimpleChanges) {
+    if (change['currentBook'].previousValue && change['currentBook'].currentValue.isbn !== change['currentBook'].previousValue.isbn) {
+      this.quantity = 1;
+      this.isCartAdded = false;
     }
   }
 
@@ -74,13 +83,13 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToCart() {
-    this.storageService.saveCurrentBook(this.currentBook, this.quantity);
-  }
-
-  redirectToPaymentPage() {
-    this.router.navigate(['payment']).then(() => {
-      window.location.reload();
-    });
+    const bookData = {
+      book: this.currentBook,
+      quantity: this.quantity
+    }
+    this.storageService.saveCurrentCart(bookData);
+    this.isCartAdded = true;
+    this.cartAddedMessage = 'Added to cart successfully!!';
   }
 
   redirectToBooksPage() {

@@ -59,7 +59,7 @@
     </a>
     <div *ngIf="!isAdmin">
       <button (click)="addToCart()" class="btn btn-primary margin-left mr-5">Add To Cart</button>
-      <button (click)="redirectToPaymentPage()" class="btn btn-success margin-left">Continue To Payment</button>
+      <p *ngIf="isCartAdded" class="mt-2"> {{ cartAddedMessage }} </p>
     </div>
   </div>
 

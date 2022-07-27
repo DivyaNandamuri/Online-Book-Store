@@ -27,6 +27,8 @@ export class BooksListComponent implements OnInit {
   review = '';
   selectedBook = '';
   message = '';
+  orderReturnMessage = '';
+  orderReturnBookId = '';
   reviewError = false;
 
   constructor(private bookService: BookService, private storageService: StorageService, private orderService: OrderService, private reviewService: ReviewService) { }
@@ -88,13 +90,19 @@ export class BooksListComponent implements OnInit {
       });
   }
 
-  returnOrder(id: any): void {
-    this.orderService.delete(id)
+  returnOrder(id: string, bookId: string): void {
+    const data = {
+      bookId: bookId
+    };
+    this.orderService.update(id, data)
       .subscribe({
-        next: (data) => {
+        next: (res) => {
           window.location.reload()
         },
-        error: (e) => console.error(e)
+        error: (e) => {
+          this.orderReturnBookId = bookId;
+          this.orderReturnMessage = e.error.message;
+        }
       });
   }
 
@@ -122,7 +130,7 @@ export class BooksListComponent implements OnInit {
       comment: this.review,
       userId: this.userId
     }
-    this.reviewService.addReview('62ddcced722d806727fa4015', data)
+    this.reviewService.addReview(this.selectedId, data)
       .subscribe({
         next: (res) => {
           window.location.reload();

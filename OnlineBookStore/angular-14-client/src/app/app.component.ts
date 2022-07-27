@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StorageService } from './services/storage.service';
 import { UserService } from './services/user.service';
 
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   isAdmin = false;
   username?: string;
-  constructor(private userService: UserService, private storageService: StorageService) { }
+  constructor(private userService: UserService, private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();

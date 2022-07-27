@@ -4,45 +4,65 @@ import { OrderService } from 'src/app/services/order.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
-  selector: 'app-book-payment',
-  templateUrl: './book-payment.component.html'
+  selector: 'app-book-cart',
+  templateUrl: './book-cart.component.html',
+  styleUrls: ['./book-cart.component.css']
 })
-export class BookPaymentComponent implements OnInit {
+export class BookCartComponent implements OnInit {
   isLoggedIn = false;
   message = '';
-  bookId = '';
   userId = '';
   username = '';
   amount = 0;
-  copies = 0;
+  cartInfo: any;
+  orderItems: any = [];
+  orderButtonClicked = false;
   constructor(private orderService: OrderService, private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
     if (this.isLoggedIn) {
-      const bookInfo = this.storageService.getCurrentBookInfo();
+      this.cartInfo = this.storageService.getCurrentCartInfo();
       const userInfo = this.storageService.getUser();
       this.userId =  userInfo.id;
       this.username = userInfo.username;
-      this.bookId = bookInfo.id;
-      this.amount = bookInfo.price;
+      this.cartInfo.map((item: any) => {
+        const info = {
+          bookId: item.book.id,
+          title: item.book.title,
+          copies: item.quantity,
+          orderStatus: "Ordered"
+        }
+        this.amount = this.amount + (item.book.price * item.quantity)
+        this.orderItems.push(info);
+      })
     }
   }
 
   orderBook(): void {
     this.message = '';
+    this.orderButtonClicked = true;
     const data = {
       userId: this.userId,
       username: this.username,
-      amount: this.amount * this.copies
+      amount: this.amount,
+      orderItems: this.orderItems
     }
     this.orderService.orderBook(data)
       .subscribe({
         next: (res) => {
-          this.message = res.message ? res.message : 'This book was ordered successfully!';
+          this.storageService.clearCart();
+          this.message = res.message ? res.message : 'Ordered successfully!';
         },
-        error: (e) => console.error(e)
+        error: (e) => {
+          this.storageService.clearCart();
+          this.message = e.error.message;
+        }
       });
+  }
+
+  removeFromCart(item: any) {
+    this.storageService.removeFromCart(item);
   }
 
   redirectToBooksPage() {

@@ -11,7 +11,7 @@ import { BooksListComponent } from './components/books-list/books-list.component
 import { UserSignUpComponent } from './components/user-signup/user-signup.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { HomeComponent } from './components/home/home.component';
-import { BookPaymentComponent } from './components/payment/book-payment.component';
+import { BookCartComponent } from './components/cart/book-cart.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { BookPaymentComponent } from './components/payment/book-payment.componen
     UserSignUpComponent,
     UserLoginComponent,
     HomeComponent,
-    BookPaymentComponent
+    BookCartComponent
   ],
   imports: [
     BrowserModule,
