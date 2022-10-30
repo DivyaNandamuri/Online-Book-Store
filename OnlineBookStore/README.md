@@ -16,11 +16,12 @@ I will build a full-stack Book Application in that:
 ### Node.js Server
 ```
 cd node-express-server
-node server.js
+node server.js or npm start
 ```
 
 ### Angular Client
 ```
 cd angular-14-client
+npm start
 ```
 Run `ng serve --port 8081` for a dev server. Navigate to `http://localhost:8081/`.
