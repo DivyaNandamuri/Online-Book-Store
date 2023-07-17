@@ -11,7 +11,7 @@ We will build a full-stack Book Application in that:
 - Book has ISBN,title, description, author, genre,stock,price .
 - Admin can add, retrieve, update, delete Books.
 - User can buy and return books
-- There is a search box for finding Books by title.
+- There is a search box for finding Books by title test.
 
 
 
