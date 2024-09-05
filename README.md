@@ -1,4 +1,5 @@
-# ADBProject
+# Full Stack Project
+
 Implementing Online bookstore using Angular JS as front end, Node JS backend and MONGODB database
 The back-end server uses Node.js + Express for REST APIs
 front-end side is an Angular App with HTTPClient.
