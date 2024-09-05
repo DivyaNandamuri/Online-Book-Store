@@ -1,8 +1,5 @@
 # Full Stack Project - Online Book Store
 
- using Angular JS as front end, Node JS backend and MONGODB database
-The back-end server uses Node.js + Express for REST APIs, front-end side is an Angular App with HTTPClient.
-
 Implementing Online bookstore. In this online book store project, I built a full-stack Angular 14 + Node.js with a CRUD Application. The back-end server uses Node.js + Express for REST APIs and connects with MongoDB database, front-end side is an Angular App with HTTPClient.
 
 This full-stack Book store Application has:
